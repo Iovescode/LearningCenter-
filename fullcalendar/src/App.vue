@@ -92,7 +92,7 @@ export default {
     },
 
     eventSelected(event) {
-      this.selected = { ...event, source: {} };
+      this.selected = { event, source: {} };
     },
 
     getTimes(newTime) {
