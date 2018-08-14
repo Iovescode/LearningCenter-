@@ -16,7 +16,7 @@
     </el-date-picker>
   </div>
     <pre>{{ selected }}</pre>
-    <full-calendar ref="calendar" :event-sources="eventSources" @event-selected="eventSelected" @event-created="eventCreated" @event-drop='eventDrop' :config="config"></full-calendar>
+    <full-calendar ref="calendar" :event-sources="eventSources" @event-selected="eventSelected" @event-created="eventCreated"  :config="config"></full-calendar>
   </div>
 </template>
 
@@ -71,15 +71,19 @@ export default {
 
       config: {
        // allDay:false,
-       // startEditable:false,
+        startEditable:false,
         editable:true,
         allDayText: "all-day",
-         selectable: true,
+         selectable: false,
         allDaySlot: false,
         locale: "ZH-CN",
         weekMode: "variable",
         defaultView: "agendaWeek",
         weekMode: "liquid",
+        dragOpacity: {
+			agenda: .5,
+			'':.6
+		},
         // eventClick: event => {
         //   console.log(event);
         // },
@@ -98,6 +102,10 @@ export default {
           // change the day's background color just for fun
           // $(this).css('background-color', 'red');
         },
+         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+         alert(90)
+         console.log(event,dayDelta,minuteDelta,allDay,revertFunc)
+       },
         eventClick: function(calEvent, jsEvent, view) {
         alert('Event: ' + calEvent.title);
         alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
@@ -127,6 +135,7 @@ export default {
       alert('899')
     }
       },
+      
 
       selected: {}
     };
@@ -156,7 +165,7 @@ export default {
       return timeArr[0].end._i;
     },
     eventCreated(view) {
-        console.log( view)
+       // console.log( view)
         // $(this).removeClass('fc-event')
       // var that=this;
       // setTimeout(function(){
