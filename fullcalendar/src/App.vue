@@ -26,7 +26,7 @@
 //     const newTeim = null||newTeim
 //     return Math.round(new Date(newTeim).getTime()
 //   }
-
+a.
   import moment from 'moment';
 
 function success() {
@@ -133,7 +133,19 @@ export default {
     },
     eventConstraint(e){
       alert('899')
-    }
+    },
+    eventMouseover:function(jsEvent,data,r){
+      var toheight= parseInt($(this).css('top'))
+      var height=this.clientHeight/2+toheight
+      console.log(toheight)
+      $('.fc-slats').append("<div class='topcss'><div calss='aa'>ksjbcjudsbcu</div></div>")
+      $('.topcss').css('top',height)
+    },
+     eventMouseout:function(){
+         
+           $('.topcss').remove()
+        },
+          // console.log(jsEvent)
       },
       
 
@@ -287,7 +299,7 @@ export default {
   color: #2c3e50;
   overflow: scroll;
 }
-.fc-event{
+.fc-event {
   /* background-color: rgba(0,0,0,0.0) */
   /* border: 1px solid */
 }
