@@ -1,12 +1,22 @@
 <template>
   <div class="calendar">
-    <expand-table :rows="rows" :columns="columns" :day="day" :table-row-class-name="tableRowClassName" :slot-name-arr="slotNameArr" @open-activename="openactivename">
+    <el-row>
+      <div class="block">
+        <el-date-picker
+          v-model="value3"
+          type="week"
+          format="yyyy 第 WW 周"
+          placeholder="选择周"
+          @change="chose"/>
+      </div>
+    </el-row>
+    <expand-table v-if="hackReset" :rows="rows" :columns="columns" :day="day" :table-row-class-name="tableRowClassName" :slot-name-arr="slotNameArr" @open-activename="openactivename">
       <template slot-scope="scope" slot="week1">
         <div v-if="scope.row.week1.data.length>0">
           <el-popover
             placement="right-start"
             title="标题"
-            width="200" 
+            width="200"
             trigger="hover"
             content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
             <a v-for="(item,index) in scope.row.week1.data" slot="reference" :key="index" :style="{background:item.backgroundColor,zIndex:item.zindex,height:item.height+'px'}" class="mm">{{ item.start }}</a>
@@ -142,8 +152,8 @@ export default {
           id: 6,
           startEndTime: '22:00-23:00',
           title: 'Party全天计划\r\n#####\r\n写代码',
-          start: '2018-09-03 22:00:00',
-          end: '2018-09-08 03:00:00',
+          start: '2018-08-03 22:00:00',
+          end: '2018-08-06 06:00:00',
           backgroundColor: 'blue',
           zindex: '1'
         }
@@ -151,41 +161,44 @@ export default {
       week: '',
       day: '',
       ferryArr: [],
-      columns: [
-        { value: 'week0', text: '' },
-        { value: 'week1', text: '星期一' },
-        { value: 'week2', text: '星期二' },
-        { value: 'week3', text: '星期三' },
-        { value: 'week4', text: '星期四' },
-        { value: 'week5', text: '星期五' },
-        { value: 'week6', text: '星期六' },
-        { value: 'week7', text: '星期日' }
-      ],
+      value3: '',
+      hackReset: true,
+      columns: [],
       tableRowClassName: [{ }, { }, { }, { }, { }, { }, { tableRowClassName: 'aaa' }, { }],
       slotNameArr: ['week1', 'week2', 'week3', 'week4', 'week5', 'week6', 'week7'],
       rows: []
     }
   },
+  watch: {
+    'source': function(val) {
+      return val
+    }
+  },
   created() {
-    this.metadata()
-    this.getInitWeek()
-    this.init()
+    this.getInitWeek(new Date())
   },
   mounted() {
   // 去除hover效果
-    setTimeout(function() {
-      const obj = document.getElementsByClassName('el-table--enable-row-hover')[0]
-      let clz = obj.getAttribute('class')
-      clz = clz.replace('el-table--enable-row-hover', '')
-      obj.setAttribute('class', clz)
-    }, 1)
+    this.clHover()
   },
 
   methods: {
+    // 选择 周
+    chose() {
+      const weekDate = JSON.stringify(this.value3).slice(1, 11)
+      this.hackReset = false
+      this.$nextTick(() => {
+        this.hackReset = true
+        this.getInitWeek(new Date(weekDate))
+        this.clHover()
+      })
+    },
 
     // 元数据处理
     metadata() {
-      this.source.map((item, index) => {
+      this.ferryArr = []
+      const arr = [...this.source]
+      arr.map((item, index) => {
         const startDayTime = item.start.slice(0, 10)
         const endDayTime = item.end.slice(0, 10)
         if (startDayTime !== endDayTime) {
@@ -244,11 +257,11 @@ export default {
       })
     },
     // 初始化日历
-    init() {
+    init(weekDateObj) {
       // 时间间隔
       const b = 60
       const hour = 1440 / b
-
+      this.rows = []
       for (let index = 0; index < hour; index++) {
         const hour = this.sumTime(index, b).hour
         this.rows.push({
@@ -262,20 +275,22 @@ export default {
           week7: { x: hour, y: this.week[6], data: [] }
         })
       }
-      this.timeSolt()
+      this.timeSolt(weekDateObj)
     },
 
     // 时间排序
-    timeSolt() {
+    timeSolt(weekDateObj) {
       this.rows.map((item, index) => {
         for (const key in item) {
           if (key !== 'week0') {
             this.source.map((items, indexs) => {
               const startDayTime = items.start.slice(0, 10)
               const startHourTime = items.start.slice(11, 16)
-              if (startDayTime === item[key].y.slice(0, 10)) {
-                if (startHourTime === item[key].x) {
-                  item[key].data.push(items)
+              if (weekDateObj.weekArr.includes(startDayTime)) {
+                if (startDayTime === item[key].y.slice(0, 10)) {
+                  if (startHourTime === item[key].x) {
+                    item[key].data.push(items)
+                  }
                 }
               }
             })
@@ -284,19 +299,46 @@ export default {
       })
     },
     // 初始化 当前的天 当前周
-    getInitWeek() {
-      this.week = this.getweek(new Date()).week
-      this.day = this.getweek(new Date()).day
-      this.columns.map((item, index) => {
+    getInitWeek(val) {
+      const WeekData = [
+        { value: 'week0', text: '' },
+        { value: 'week1', text: '星期一' },
+        { value: 'week2', text: '星期二' },
+        { value: 'week3', text: '星期三' },
+        { value: 'week4', text: '星期四' },
+        { value: 'week5', text: '星期五' },
+        { value: 'week6', text: '星期六' },
+        { value: 'week7', text: '星期日' }
+      ]
+      this.columns = WeekData
+      const weekArr = []
+      this.week = this.getweek(val).week
+      this.day = this.getweek(val).day
+      WeekData.forEach((item, index) => {
         if (index) {
+          weekArr.push(this.week[index - 1].slice(0, 10))
           const number = this.week[index - 1].slice(8, 11)
-          item.text = number + item.text
+          const weekDay = number + this.columns[index].text
+          item.text = weekDay
         }
       })
+      const weekDate = JSON.stringify(val).slice(1, 11)
+      this.init({ weekDate, weekArr })
+      this.metadata()
     },
 
     openactivename(...val) {
       console.log(...val)
+    },
+
+    // 清除 Hover
+    clHover() {
+      setTimeout(function() {
+        const obj = document.getElementsByClassName('el-table--enable-row-hover')[0]
+        let clz = obj.getAttribute('class')
+        clz = clz.replace('el-table--enable-row-hover', '')
+        obj.setAttribute('class', clz)
+      }, 1)
     },
     // 15,30 1小时 间隔计算
     sumTime(index, b) {
