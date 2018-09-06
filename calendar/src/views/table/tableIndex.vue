@@ -10,7 +10,7 @@
           @change="chose"/>
       </div>
     </el-row>
-    <expand-table v-if="hackReset" :rows="rows" :columns="columns" :day="day" :table-row-class-name="tableRowClassName" :slot-name-arr="slotNameArr" @open-activename="openactivename">
+    <expand-table v-if="hackReset" :rows="rows" :columns="columns" :day="day" :slot-name-arr="slotNameArr">
       <template slot-scope="scope" slot="week1">
         <div v-if="scope.row.week1.data.length>0">
           <el-popover
@@ -109,14 +109,6 @@ export default {
     return {
       // 数据原
       source: [
-        // {
-        //   id: 1,
-        //   title: 'Party',
-        //   start: '2018-09-01 20:00:00',
-        //   end: '2018-09-12 22:00:00',
-        //   backgroundColor: 'green',
-        //   className: 'success'
-        // },
         {
           id: 2,
           title: 'Party',
@@ -164,9 +156,9 @@ export default {
       value3: '',
       hackReset: true,
       columns: [],
-      tableRowClassName: [{ }, { }, { }, { }, { }, { }, { tableRowClassName: 'aaa' }, { }],
       slotNameArr: ['week1', 'week2', 'week3', 'week4', 'week5', 'week6', 'week7'],
-      rows: []
+      rows: [],
+      timeSpace: 60 // 时间间隔
     }
   },
   watch: {
@@ -178,7 +170,6 @@ export default {
     this.getInitWeek(new Date())
   },
   mounted() {
-  // 去除hover效果
     this.clHover()
   },
 
@@ -242,6 +233,7 @@ export default {
       this.sunHeight()
     },
     sunHeight() {
+      const timeSpace = 15 || this.timeSpace
       this.source.map((item, index) => {
         // if (item.backgroundColor === undefined) {
         //   item.backgroundColor = ''
@@ -253,14 +245,14 @@ export default {
         var startTime = this.timesStamp(item.start)
         var startEnd = this.timesStamp(item.end)
         const timeMistiming = startEnd - startTime
-        item.height = timeMistiming / 60 * 0.733
+        item.height = timeMistiming / timeSpace * 0.733
       })
     },
     // 初始化日历
     init(weekDateObj) {
       // 时间间隔
-      const b = 60
-      const hour = 1440 / b
+      const b = 15
+      const hour = 1440 / this.H
       this.rows = []
       for (let index = 0; index < hour; index++) {
         const hour = this.sumTime(index, b).hour
@@ -326,11 +318,6 @@ export default {
       this.init({ weekDate, weekArr })
       this.metadata()
     },
-
-    openactivename(...val) {
-      console.log(...val)
-    },
-
     // 清除 Hover
     clHover() {
       setTimeout(function() {
@@ -345,7 +332,6 @@ export default {
       const nowHour = this.getweek(new Date()).nowTimes + index * b * 60 * 1000
       return { day: this.formatDate(new Date(nowHour)).slice(0, 11), hour: this.formatDate(new Date(nowHour)).slice(11, 16) }
     },
-
     // 获取当前周
     getweek(currentTime) {
       var currentDate = new Date(currentTime)
