@@ -10,6 +10,7 @@
           @change="chose"/>
       </div>
     </el-row>
+    <button @click="closeOthersTags">dfvfv</button>
     <expand-table v-if="hackReset" :rows="rows" :columns="columns" :day="day" :slot-name-arr="slotNameArr">
       <template slot-scope="scope" slot="week1">
         <div v-if="scope.row.week1.data.length>0">
@@ -174,6 +175,14 @@ export default {
   },
 
   methods: {
+    closeOthersTags() {
+      this.$store.dispatch('delView', this.$route).then(({ visitedViews }) => {
+        if (this.$route.path) {
+          const routePath = visitedViews.slice(-1)[0]
+          return routePath ? this.$router.push(routePath) : this.$router.push('/')
+        }
+      })
+    },
     // 选择 周
     chose() {
       const weekDate = JSON.stringify(this.value3).slice(1, 11)
