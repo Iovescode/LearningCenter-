@@ -183,6 +183,7 @@ export const asyncRouterMap = [
         name: 'EditArticle',
         meta: { title: 'editArticle', noCache: true },
         hidden: true
+        // path: 'edit/:id(\\d+)',
       },
       {
         path: 'list',

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-
+    dscd
     <el-table v-loading.body="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
@@ -43,9 +43,7 @@
 
       <el-table-column align="center" label="Actions" width="120">
         <template slot-scope="scope">
-          <router-link :to="'/example/edit/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">Edit</el-button>
-          </router-link>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="jump(scope.row.id)">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -110,6 +108,10 @@ export default {
     handleCurrentChange(val) {
       this.listQuery.page = val
       this.getList()
+    },
+    jump(id) {
+      const Timestamp = new Date().getTime()
+      this.$router.push({ path: '/example/edit/' + Timestamp, query: { id: id }})
     }
   }
 }

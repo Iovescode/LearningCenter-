@@ -45,14 +45,14 @@ export default {
       type: Array,
       required: true
     }, // 列表：表头(必填)  value:String(必填) text:String(必填) sortable:Boolean fixed: true/left/right
-    day: { type: Number, required: true },
-    slotNameArr: Array, // 列表：slot数组
-    tableRefName: String, // 列表：ref名字
-    cellClassRowName: String, // 列表：放在row里 行的样式名字
-    checkboxValidateRowName: String, // 列表：放在row里 判断当前行是否显示 checkBox
-    canCheckAllBox: String, // 是否有checkBox 传yes/no/'' 是否允许全选
-    tableExpandSlotName: String, // table 伸缩模板名称
-    tableExpandColumns: Array // table 伸缩标题名称数组
+    day: { type: Number, required: true }
+    // slotNameArr: Array, // 列表：slot数组
+    // tableRefName: String, // 列表：ref名字
+    // cellClassRowName: String, // 列表：放在row里 行的样式名字
+    // checkboxValidateRowName: String, // 列表：放在row里 判断当前行是否显示 checkBox
+    // canCheckAllBox: String, // 是否有checkBox 传yes/no/'' 是否允许全选
+    // tableExpandSlotName: String, // table 伸缩模板名称
+    // tableExpandColumns: Array // table 伸缩标题名称数组
   },
   data() {
     return {
