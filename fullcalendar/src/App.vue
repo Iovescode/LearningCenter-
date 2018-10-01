@@ -26,8 +26,7 @@
 //     const newTeim = null||newTeim
 //     return Math.round(new Date(newTeim).getTime()
 //   }
-a.
-  import moment from 'moment';
+import moment from "moment";
 
 function success() {
   $("a.success").append(" <b class='succeshtml'>Hello world!</b>");
@@ -44,18 +43,18 @@ export default {
           title: "Party",
           start: "2018-08-12T20:00:00",
           end: "2018-08-12T22:00:00",
-         // constraint: "businessHours",
+          // constraint: "businessHours",
           className: "success",
-         editable:true,
+          editable: true
         },
         {
           id: 2,
           title: "Party",
           start: "2018-08-13T20:00:00",
           end: "2018-08-13T22:00:00",
-         // constraint: "businessHours",
+          // constraint: "businessHours",
           className: "success",
-          editable:true,
+          editable: true
         },
         {
           id: 3,
@@ -64,90 +63,88 @@ export default {
           end: "2018-08-14T22:00:00",
           //constraint: "businessHours",
           className: "success",
-         editable:true,
-          description: 'This is a cool event'
+          editable: true,
+          description: "This is a cool event"
         }
       ],
 
       config: {
-       // allDay:false,
-        startEditable:false,
-        editable:true,
+        // allDay:false,
+        startEditable: false,
+        editable: true,
         allDayText: "all-day",
-         selectable: false,
+        selectable: false,
         allDaySlot: false,
         locale: "ZH-CN",
         weekMode: "variable",
         defaultView: "agendaWeek",
         weekMode: "liquid",
+        nowIndicator: true,
         dragOpacity: {
-			agenda: .5,
-			'':.6
-		},
+          agenda: 0.5,
+          "": 0.6
+        },
         // eventClick: event => {
         //   console.log(event);
         // },
         navLinks: true, // can click day/week names to navigate views
-            navLinkDayClick: function(date, jsEvent) {
-                console.log('day', date.format()); // date is a moment
-                console.log('coords', jsEvent.pageX, jsEvent.pageY);
-                alert(date.format());
-            },
+        navLinkDayClick: function(date, jsEvent) {
+          console.log("day", date.format()); // date is a moment
+          console.log("coords", jsEvent.pageX, jsEvent.pageY);
+          alert(date.format());
+        },
 
-         dayClick: function(date, jsEvent, view,e) {
-           console.log(date, jsEvent, view,e)
+        dayClick: function(date, jsEvent, view, e) {
+          console.log(date, jsEvent, view, e);
           // alert('Clicked on: ' + date.format());
           // alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
           //alert('Current view: ' + view.name);
           // change the day's background color just for fun
           // $(this).css('background-color', 'red');
         },
-         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-         alert(90)
-         console.log(event,dayDelta,minuteDelta,allDay,revertFunc)
-       },
-        eventClick: function(calEvent, jsEvent, view) {
-        alert('Event: ' + calEvent.title);
-        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-        alert('View: ' + view.name);
-
-        // change the border color just for fun
-        $(this).css('border-color', 'red');
-
-    },
-   
-    
-		
-		 eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
-			revertFunc();
-    	},
-		
-    // eventRender: function(event, element) {
-    //     console.log(event)
-    // },
-    eventMouseover(e){
-      console.log(e)
-    },
-    eventDragStart(e){
-     console.log(e)
-    },
-    eventConstraint(e){
-      alert('899')
-    },
-    eventMouseover:function(jsEvent,data,r){
-      var toheight= parseInt($(this).css('top'))
-      var height=this.clientHeight/2+toheight
-      console.log(toheight)
-      $('.fc-slats').append("<div class='topcss'><div calss='aa'>ksjbcjudsbcu</div></div>")
-      $('.topcss').css('top',height)
-    },
-     eventMouseout:function(){
-         
-           $('.topcss').remove()
+        eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+          alert(90);
+          console.log(event, dayDelta, minuteDelta, allDay, revertFunc);
         },
-          // console.log(jsEvent)
+        eventClick: function(calEvent, jsEvent, view) {
+          alert("Event: " + calEvent.title);
+          alert("Coordinates: " + jsEvent.pageX + "," + jsEvent.pageY);
+          alert("View: " + view.name);
+
+          // change the border color just for fun
+          $(this).css("border-color", "red");
+        },
+
+        eventResize: function(event, dayDelta, minuteDelta, revertFunc) {
+          revertFunc();
+        },
+
+        // eventRender: function(event, element) {
+        //     console.log(event)
+        // },
+        eventMouseover(e) {
+          console.log(e);
+        },
+        eventDragStart(e) {
+          console.log(e);
+        },
+        eventConstraint(e) {
+          alert("899");
+        },
+        eventMouseover: function(jsEvent, data, r) {
+          var toheight = parseInt($(this).css("top"));
+          var height = this.clientHeight / 2 + toheight;
+          console.log(toheight);
+          $(".fc-slats").append(
+            "<div class='topcss'><div calss='aa'>ksjbcjudsbcu</div></div>"
+          );
+          $(".topcss").css("top", height);
+        },
+        eventMouseout: function() {
+          $(".topcss").remove();
+        }
+        // console.log(jsEvent)
       },
-      
 
       selected: {}
     };
@@ -177,14 +174,13 @@ export default {
       return timeArr[0].end._i;
     },
     eventCreated(view) {
-       // console.log( view)
-        // $(this).removeClass('fc-event')
+      // console.log( view)
+      // $(this).removeClass('fc-event')
       // var that=this;
       // setTimeout(function(){
       //     that.refreshEvents()
       // },2000)
-      
-       //this.$refs.calendar.$emit("refetch-events");
+      //this.$refs.calendar.$emit("refetch-events");
     },
 
     // eventCreated(...test) {
@@ -238,14 +234,12 @@ export default {
     // },
     // 时间格式化
     eventDrop: function(event, delta, revertFunc) {
+      alert(event.title + " was dropped on " + event.start.format());
 
-    alert(event.title + " was dropped on " + event.start.format());
-
-    if (!confirm("Are you sure about this change?")) {
-      revertFunc();
-    }
-
-  },
+      if (!confirm("Are you sure about this change?")) {
+        revertFunc();
+      }
+    },
 
     timeFormats(time) {
       var date = new Date(time);
@@ -258,9 +252,7 @@ export default {
         this.$refs.calendar.fireMethod("gotoDate", moment(val));
         success();
       }, 2000);
-    },
-    
-    
+    }
   },
 
   computed: {

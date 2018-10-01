@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title></title>
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body style="margin: 0;">
+  <div id='app' style="width: 500px; height: 500px; margin: 50 auto; background-color: orange; overflow: hidden; position: relative;"></div>
+  <div onclick="my()">sdefe</div>
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var ox = document.createElement('div');
+    var oy = document.createElement('div');
+    ox.style.width = '100%';
+    ox.style.height = '1px';
+    ox.style.backgroundColor = '#ddd';
+    ox.style.position = 'absolute';
+    ox.style.pointerEvents = 'none';
+    ox.style.left = 0;
+    document.getElementById('app').appendChild(ox);
+    oy.style.height = '100%';
+    oy.style.pointerEvents = 'none';
+    oy.style.width = '1px';
+    oy.style.backgroundColor = '#ddd';
+    oy.style.position = 'absolute';
+    oy.style.top = 0;
+    document.getElementById('app').appendChild(oy);
+    document.onmousemove = function (e) {
+      var e = e || event;
+      var x = e.pageX;
+      var y = e.pageY;
+      ox.style.top = y + 'px';
+      oy.style.left = x + 'px';
+    };
+    function my() {
+      alert(90)
+    }
+  </script>
+</body>
+
+</html>
