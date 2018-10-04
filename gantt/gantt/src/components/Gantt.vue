@@ -11,14 +11,14 @@
       </tr>
       <tr v-for="(item, index) in data" :key='index'>
         <td>
-          <span>{{item.to.title}}</span>
+          <span>{{item.title}}</span>
         </td>
         <td v-for="(ite, ins) in item.days" :key='ins'>
           <span>
-            <a v-if="ite==item.to.today" :data='item.to.remark' class="iniClass" @mouseenter="mouseenter" @mouseleave="mouseleave" :style="{ background: item.to.activeColor,width: item.to.width}">{{item.to.title}}</a>
-            <a v-if="ite==item.to.today" @mouseenter="mouseenter" @mouseleave="mouseleave" :style="{ background: item.to.activeColors,width: item.to.width}" class="iniClassB"></a>
+            <a v-if="ite.title&&ite.width!=='0'" :data='ite.remark' class="iniClass" @mouseenter="mouseenter" @mouseleave="mouseleave" :style="{ background: ite.activeColor,width: ite.width}">{{ite.title}} {{ite.percentum}}</a>
+            <a v-if="ite.title" :data='ite.remark' @mouseenter="mouseenter" @mouseleave="mouseleave" :style="{ background: ite.activeColors,width: ite.widths}" class="iniClassB"></a>
+            <a v-if="ite.isweek" :data='ite.remark'  class="iniClassC"></a>
           </span>
-          <!-- <span >{{ite}}</span> -->
         </td>
       </tr>
     </table>
@@ -62,7 +62,7 @@ export default {
       },
       {
         title: '项目二',
-        today: '2018-10-4',
+        today: '2018-10-3',
         endTime: '2018-10-9',
         activeColor: 'red',
         activeColors: 'green',
@@ -81,6 +81,7 @@ export default {
   },
   methods: {
     headerTime () {
+      // 当前月的计算
       for (let index = 0; index < getDays(); index++) {
         let dayDate = new Date().getFullYear() + `${'-'}` + parseInt(new Date().getMonth() + 1) + `${'-'}` + parseInt(index + 1)
         this.headerDays.push(dayDate)
@@ -90,21 +91,51 @@ export default {
           days: []
         }
         this.headerDays.forEach((element, index) => {
+          // 初始化数据结构
+          let daysObj = {
+            title: '',
+            today: '',
+            endTime: '',
+            activeColor: '',
+            activeColors: '',
+            remark: '',
+            widths: '',
+            width: ''
+          }
+
+          if (this.isWeek(element)) {
+            // 周六 周如处理
+            daysObj.isweek = true
+          }
           if (ite.today === element) {
+            // 构造数据结构
             let sum = (this.timestamp(ite.endTime) - this.timestamp(ite.today)) / 86400000
-            // let now = (this.timestamp() - this.timestamp(ite.today)) / 86400000
-            ite.width = sum * 70 + 'px'
-            obg.days.push(element)
-            obg = {...obg, to: ite}
+            let now = (this.timestamp(new Date()) - this.timestamp(ite.today)) / 86400000
+            ite.widths = sum * 70 + 'px'
+            ite.width = now * 70 + 'px'
+            ite.percentum = (now / sum).toFixed(2) + '%'
+            daysObj.day = element
+            daysObj = ite
+            obg.title = ite.title
+            if (now <= 0) {
+              daysObj.remark = '当前项目还未开展'
+              daysObj.title = "''"
+              daysObj.width = '0'
+            }
+            obg.days.push(daysObj)
           } else {
-            obg.days.push(element)
+            obg.days.push(daysObj)
           }
         })
         this.data.push(obg)
       })
     },
+    // 鼠标事件
     mouseenter (e) {
       this.remark = e.target.getAttribute('data')
+      if (e.target.title) {
+        this.isshow = false
+      }
       this.isshow = true
       this.left = e.clientX - 70 + 'px'
       this.top = e.clientY - 90 - e.offsetY / 2 + 'px'
@@ -115,6 +146,12 @@ export default {
     // 工具函数库
     timestamp (time) {
       return new Date(time || null).getTime()
+    },
+    isWeek (Week) {
+      var dt = new Date(Week || null)
+      if (dt.getDay() === 6 || dt.getDay() === 0) {
+        return true
+      }
     }
   }
 }
@@ -144,6 +181,9 @@ td,
 th,
 span {
   position: relative;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 300;
 }
 .iniClass{
   cursor: pointer;
@@ -231,5 +271,16 @@ h1 {
   border-right: 10px solid transparent;
   border-top: 10px solid #fff;
 }
-
+.iniClassC{
+  top: 1px;
+  left: 1px;
+  background-color: #00ffff4d;
+  width: 85px;
+  height: 47px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 3px;
+  position: absolute;
+  z-index: 1;
+}
 </style>
