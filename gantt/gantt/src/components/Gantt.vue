@@ -175,7 +175,7 @@ th {
   height: 50px;
   position: relative;
   /* padding: 10px 5px 17px 7px; */
-  border: 1px solid black;
+  border: 1px solid #00000029;
 }
 
 table,
