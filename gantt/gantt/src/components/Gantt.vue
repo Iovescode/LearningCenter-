@@ -164,15 +164,17 @@ export default {
 }
 
 table {
-  width: 200%;
+  /* width: 100%; */
   border-collapse: collapse;
 }
 
 table,
 td,
 th {
+  min-width: 80px;
+  height: 50px;
   position: relative;
-  padding: 10px 5px 17px 7px;
+  /* padding: 10px 5px 17px 7px; */
   border: 1px solid black;
 }
 
@@ -273,14 +275,14 @@ h1 {
 }
 .iniClassC{
   top: 1px;
-  left: 1px;
-  background-color: #00ffff4d;
-  width: 85px;
-  height: 47px;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 3px;
-  position: absolute;
-  z-index: 1;
+    left: 1px;
+    background-color: #00ffff4d;
+    width: 82px;
+    height: 52px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 3px;
+    position: absolute;
+    z-index: 1;
 }
 </style>
