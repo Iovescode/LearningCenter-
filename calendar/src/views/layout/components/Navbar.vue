@@ -3,8 +3,11 @@
     <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
 
     <breadcrumb class="breadcrumb-container"/>
-
     <div class="right-menu">
+      <el-badge :value="arr.length" class="item">
+        <el-button size="small">消息</el-button>
+      </el-badge>
+
       <error-log class="errLog-container right-menu-item"/>
 
       <el-tooltip :content="$t('navbar.screenfull')" effect="dark" placement="bottom">
@@ -66,6 +69,11 @@ export default {
     LangSelect,
     ThemePicker
   },
+  data() {
+    return {
+      arr: []
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
@@ -73,15 +81,24 @@ export default {
       'avatar'
     ])
   },
+  created() {
+    this.webstork()
+  },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('toggleSideBar')
     },
     logout() {
       this.$store.dispatch('LogOut').then(() => {
-        location.reload()// In order to re-instantiate the vue-router object to avoid bugs
+        location.reload()
+      })
+    },
+    webstork() {
+      this.socketApi.sendSock('{ "name":"runoob", "alexa":10000, "site":"www.runoob.com" }', (e) => {
+        this.arr.push(e)
       })
     }
+
   }
 }
 </script>
