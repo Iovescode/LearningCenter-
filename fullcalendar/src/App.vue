@@ -29,7 +29,29 @@
 import moment from "moment";
 
 function success() {
-  $("a.success").append(" <b class='succeshtml'>Hello world!</b>");
+  var ox = document.createElement("div");
+  var oy = document.createElement("div");
+  ox.style.width = "100%";
+  ox.style.height = "1px";
+  ox.style.backgroundColor = "#ddd";
+  ox.style.position = "absolute";
+  ox.style.pointerEvents = "none";
+  ox.style.left = 0;
+  document.getElementById("app").appendChild(ox);
+  oy.style.height = "100%";
+  oy.style.pointerEvents = "none";
+  oy.style.width = "1px";
+  oy.style.backgroundColor = "#ddd";
+  oy.style.position = "absolute";
+  oy.style.top = 0;
+  document.getElementById("app").appendChild(oy);
+  document.onmousemove = function(e) {
+    var e = e || event;
+    var x = e.pageX;
+    var y = e.pageY;
+    ox.style.top = y + "px";
+    oy.style.left = x + "px";
+  };
 }
 
 export default {
