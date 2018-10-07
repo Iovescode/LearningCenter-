@@ -21,14 +21,70 @@
 </template>
 
 <script>
-//获取当前时间戳
-// function getTimes(newTeim){
-//     const newTeim = null||newTeim
-//     return Math.round(new Date(newTeim).getTime()
-//   }
+function titleWeekSign(item, str, weektitle, weekName) {
+  // console.log(weektitle, weekName);
+  if (weektitle === weekName) {
+    item.innerHTML =
+      "<span class='weekNameCss weekNameCss_Action'>" +
+      str +
+      "</span><span class='weekName'>" +
+      weekName +
+      "</span>";
+  } else {
+    item.innerHTML =
+      "<span class='weekNameCss'>" +
+      str +
+      "</span><span class='weekName'>" +
+      weekName +
+      "</span>";
+  }
+}
+
+function titleWeek() {
+  let weektitle;
+  let weekNumber = new Date().getDay();
+  if (weekNumber === 0) {
+    weekNumber = 7;
+  }
+  const weekDate = ["", "周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+  for (let index = 0; index < weekDate.length; index++) {
+    if (weekNumber === index) {
+      weektitle = weekDate[index];
+    }
+  }
+
+  [...$(".fc-row.fc-widget-header table tr").children()].forEach(
+    (item, index) => {
+      // console.log(item.getAttribute("data-date"));
+      if (item.innerText.length > 5) {
+        if (index) {
+          var weekName;
+          var str = "";
+          if (item.innerText.slice(5).length > 1) {
+            weekName = item.innerText.slice(0, 2);
+            str = item.innerText.slice(5);
+            if (isNaN(item.innerText.slice(5))) {
+              if (str.slice(1, 3).length > 1) {
+                str = str.slice(1, 4).trim();
+              } else {
+                str = (0 + str.slice(1, 2)).trim();
+              }
+            }
+            titleWeekSign(item, str, weektitle, weekName);
+          } else {
+            weekName = item.innerText.slice(0, 2);
+            str = ("0" + item.innerText.slice(5)).trim();
+            titleWeekSign(item, str, weektitle, weekName);
+          }
+        }
+      }
+    }
+  );
+}
 import moment from "moment";
 
 function success() {
+  titleWeek();
   var ox = document.createElement("div");
   var oy = document.createElement("div");
   ox.style.width = "100%";
@@ -37,14 +93,14 @@ function success() {
   ox.style.position = "absolute";
   ox.style.pointerEvents = "none";
   ox.style.left = 0;
-  document.getElementById("app").appendChild(ox);
+  document.getElementById("calendar").appendChild(ox);
   oy.style.height = "100%";
   oy.style.pointerEvents = "none";
   oy.style.width = "1px";
   oy.style.backgroundColor = "#ddd";
   oy.style.position = "absolute";
   oy.style.top = 0;
-  document.getElementById("app").appendChild(oy);
+  document.getElementById("calendar").appendChild(oy);
   document.onmousemove = function(e) {
     var e = e || event;
     var x = e.pageX;
@@ -113,7 +169,6 @@ export default {
         navLinkDayClick: function(date, jsEvent) {
           console.log("day", date.format()); // date is a moment
           console.log("coords", jsEvent.pageX, jsEvent.pageY);
-          alert(date.format());
         },
 
         dayClick: function(date, jsEvent, view, e) {
@@ -175,6 +230,7 @@ export default {
   methods: {
     refreshEvents() {
       this.$refs.calendar.$emit("refetch-events");
+      success();
     },
 
     removeEvent() {
@@ -323,4 +379,32 @@ b.succeshtml {
   right: 0;
   color: red;
 }
+.weekNameCss {
+  margin-right: 10px;
+  text-align: center;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  display: inline-block;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: lighter;
+}
+.weekNameCss_Action {
+  color: #fff;
+  background-color: #2c7eff;
+}
+/* th.fc-day-header.fc-widget-header.fc-today > span.weekNameCss {
+  margin-right: 10px;
+  text-align: center;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  display: inline-block;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: lighter;
+  color: #fff;
+  background-color: #2c7eff;
+} */
 </style>
