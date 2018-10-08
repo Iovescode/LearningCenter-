@@ -1,12 +1,14 @@
 <template>
   <div id='tableid'>
-    <table class="hello">
+    <div class="header">{{new Date().toJSON()}}</div>
+    <div class="top"><span class="month" v-for="(item,index) in month" :key='index' @click="switchTo(item)">{{item}}</span></div>
+    <table class="hello" >
       <tr>
         <th>
-          <span >kkk</span>
+          <span >kk</span>
         </th>
         <th v-for="(item, index) in headerDays" :key='index'>
-          <span >{{item}}</span>
+          <span >{{item.days}}</span>
         </th>
       </tr>
       <tr v-for="(item, index) in data" :key='index'>
@@ -35,10 +37,9 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      headerDays: [],
       row: [{
         title: '项目一',
-        today: '2018-10-9',
+        today: '2018-08-9',
         endTime: '2018-10-20',
         activeColor: 'red',
         activeColors: 'green',
@@ -53,7 +54,7 @@ export default {
         remark: '这是项目二'
       },
       {
-        title: '项目二',
+        title: '项目三',
         today: '2018-10-15',
         endTime: '2018-10-25',
         activeColor: 'red',
@@ -61,13 +62,31 @@ export default {
         remark: '这是项目二'
       },
       {
-        title: '项目二',
+        title: '项目四',
+        today: '2018-10-3',
+        endTime: '2018-10-9',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      }, {
+        title: '项目五',
+        today: '2018-10-15',
+        endTime: '2018-10-25',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      },
+      {
+        title: '项目六',
         today: '2018-10-3',
         endTime: '2018-10-9',
         activeColor: 'red',
         activeColors: 'green',
         remark: '这是项目二'
       }],
+      rows: [],
+      month: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+      headerDays: [],
       data: [],
       isshow: false,
       top: '0',
@@ -76,17 +95,20 @@ export default {
     }
   },
   created () {
-    // initHeaderTime 表头
-    this.headerTime()
+    this.switchTo()
   },
   methods: {
-    headerTime () {
+    headerTime (arr) {
+      // 重置
+      this.data = []
+      this.headerDays = []
+
       // 当前月的计算
       for (let index = 0; index < getDays(); index++) {
         let dayDate = new Date().getFullYear() + `${'-'}` + parseInt(new Date().getMonth() + 1) + `${'-'}` + parseInt(index + 1)
-        this.headerDays.push(dayDate)
+        this.headerDays.push({dates: dayDate, days: index + 1})
       }
-      this.row.map((ite, ins) => {
+      arr.map((ite, ins) => {
         let obg = {
           days: []
         }
@@ -102,24 +124,24 @@ export default {
             widths: '',
             width: ''
           }
-
-          if (this.isWeek(element)) {
+          if (this.isWeek(element.dates)) {
             // 周六 周如处理
             daysObj.isweek = true
           }
-          if (ite.today === element) {
+          if (ite.today === element.dates) {
+            // console.log(ite)
             // 构造数据结构
             let sum = (this.timestamp(ite.endTime) - this.timestamp(ite.today)) / 86400000
             let now = (this.timestamp(new Date()) - this.timestamp(ite.today)) / 86400000
-            ite.widths = sum * 70 + 'px'
-            ite.width = now * 70 + 'px'
+            ite.widths = sum * 40 + 'px'
+            ite.width = now * 40 + 'px'
             ite.percentum = (now / sum).toFixed(2) + '%'
-            daysObj.day = element
+            daysObj.day = element.dates
             daysObj = ite
             obg.title = ite.title
             if (now <= 0) {
               daysObj.remark = '当前项目还未开展'
-              daysObj.title = "''"
+              // daysObj.title = "''"
               daysObj.width = '0'
             }
             obg.days.push(daysObj)
@@ -142,6 +164,21 @@ export default {
     },
     mouseleave (e) {
       this.isshow = false
+    },
+    switchTo (e) {
+      let arr = []
+      let month
+      if (e) {
+        month = new Date().getFullYear() + '-' + e
+      } else {
+        month = new Date().toJSON().slice(0, 7)
+      }
+      this.row.map(item => {
+        if (item.today.includes(month)) {
+          arr.push(item)
+        }
+      })
+      this.headerTime(arr)
     },
     // 工具函数库
     timestamp (time) {
@@ -171,7 +208,7 @@ table {
 table,
 td,
 th {
-  min-width: 80px;
+  min-width: 40px;
   height: 50px;
   position: relative;
   /* padding: 10px 5px 17px 7px; */
@@ -182,6 +219,7 @@ table,
 td,
 th,
 span {
+  width: 100%;
   position: relative;
   font-family: sans-serif;
   font-size: 14px;
@@ -277,12 +315,25 @@ h1 {
   top: 1px;
     left: 1px;
     background-color: #00ffff4d;
-    width: 82px;
+    width: 42px;
     height: 52px;
     cursor: pointer;
     display: inline-block;
     font-size: 3px;
     position: absolute;
     z-index: 1;
+}
+.header{
+  padding: 15px 0;
+}
+.month{
+  width: 115px;
+  padding: 15px 0;
+  display: inline-block;
+  cursor: pointer
+}
+.top{
+  border-top: 1px solid #00000029;
+  /* border: 1px solid #00000029; */
 }
 </style>
