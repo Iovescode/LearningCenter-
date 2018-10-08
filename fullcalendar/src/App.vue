@@ -93,19 +93,19 @@ function success() {
   ox.style.position = "absolute";
   ox.style.pointerEvents = "none";
   ox.style.left = 0;
-  document.getElementById("calendar").appendChild(ox);
+  document.getElementsByClassName("fc-view")[0].appendChild(ox);
   oy.style.height = "100%";
   oy.style.pointerEvents = "none";
   oy.style.width = "1px";
   oy.style.backgroundColor = "#ddd";
   oy.style.position = "absolute";
   oy.style.top = 0;
-  document.getElementById("calendar").appendChild(oy);
-  document.onmousemove = function(e) {
+  document.getElementsByClassName("fc-view")[0].appendChild(oy);
+  document.getElementsByClassName("fc-view")[0].onmousemove = function(e) {
     var e = e || event;
     var x = e.pageX;
     var y = e.pageY;
-    ox.style.top = y + "px";
+    ox.style.top = y - 145 + "px";
     oy.style.left = x + "px";
   };
 }
@@ -148,16 +148,18 @@ export default {
 
       config: {
         // allDay:false,
-        startEditable: false,
-        editable: true,
-        allDayText: "all-day",
-        selectable: false,
         allDaySlot: false,
         locale: "ZH-CN",
         weekMode: "variable",
+        slotDuration: "00:15:00",
+        minTime: "06:00:00",
+        maxTime: "24:00:00",
+        slotLabelFormat: "HH:mm",
         defaultView: "agendaWeek",
-        weekMode: "liquid",
-        nowIndicator: true,
+        contentHeight: 2000,
+        selectable: false,
+        editable: false,
+        eventOverlap: true,
         dragOpacity: {
           agenda: 0.5,
           "": 0.6
@@ -209,6 +211,7 @@ export default {
           alert("899");
         },
         eventMouseover: function(jsEvent, data, r) {
+          console.log(e);
           var toheight = parseInt($(this).css("top"));
           var height = this.clientHeight / 2 + toheight;
           console.log(toheight);
@@ -394,6 +397,10 @@ b.succeshtml {
   color: #fff;
   background-color: #2c7eff;
 }
+.fc-view {
+  overflow: hidden;
+}
+
 /* th.fc-day-header.fc-widget-header.fc-today > span.weekNameCss {
   margin-right: 10px;
   text-align: center;
