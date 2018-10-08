@@ -64,13 +64,13 @@ export default {
       {
         title: '项目四',
         today: '2018-10-3',
-        endTime: '2018-10-9',
+        endTime: '2018-10-14',
         activeColor: 'red',
         activeColors: 'green',
         remark: '这是项目二'
       }, {
         title: '项目五',
-        today: '2018-10-15',
+        today: '2018-10-18',
         endTime: '2018-10-25',
         activeColor: 'red',
         activeColors: 'green',
@@ -80,6 +80,63 @@ export default {
         title: '项目六',
         today: '2018-10-3',
         endTime: '2018-10-9',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      }, {
+        title: '项目六',
+        today: '2018-10-3',
+        endTime: '2018-10-15',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      }, {
+        title: '项目六',
+        today: '2018-10-3',
+        endTime: '2018-10-9',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      }, {
+        title: '项目六',
+        today: '2018-10-3',
+        endTime: '2018-10-9',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      }, {
+        title: '项目六',
+        today: '2018-10-3',
+        endTime: '2018-10-24',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      }, {
+        title: '项目六',
+        today: '2018-10-13',
+        endTime: '2018-10-28',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      }, {
+        title: '项目六',
+        today: '2018-10-23',
+        endTime: '2018-10-17',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      }, {
+        title: '项目六',
+        today: '2018-10-14',
+        endTime: '2018-10-19',
+        activeColor: 'red',
+        activeColors: 'green',
+        remark: '这是项目二'
+      },
+      {
+        title: '项目六',
+        today: '2018-10-10',
+        endTime: '2018-10-20',
         activeColor: 'red',
         activeColors: 'green',
         remark: '这是项目二'
@@ -233,6 +290,7 @@ span {
   font-size: 3px;
   position: absolute;
   z-index: 3;
+  color: #fff
 }
 .iniClassB{
   width: 20px;
