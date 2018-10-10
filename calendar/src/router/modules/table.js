@@ -59,6 +59,11 @@ const tableRouter = {
       component: () => import('@/views/table/tableIndex'),
       name: 'calendarIndex',
       meta: { title: 'calendarIndex' }
+    }, {
+      path: 'demo-Time',
+      component: () => import('@/views/table/demoTime'),
+      name: 'calendarIndex',
+      meta: { title: 'demoTime' }
     }
   ]
 }

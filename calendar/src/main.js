@@ -7,6 +7,9 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+
 import '@/styles/index.scss' // global css
 import App from './App'
 import router from './router'
@@ -17,12 +20,13 @@ import './icons' // icon
 import './errorLog' // error log
 import './permission' // permission control
 import './mock' // simulation data
-
+import VueTimepicker from 'vue2-timepicker'
 import * as filters from './filters' // global filters
 
 import * as socketApi from './api/socket'
 Vue.prototype.socketApi = socketApi
-
+Vue.use(VueTimepicker)
+Vue.use(iView)
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
